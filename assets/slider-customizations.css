@@ -1,0 +1,36 @@
+/* 
+  Personalizações do Slider Desktop
+  =================================
+  
+  Para ajustar o comportamento do slider no desktop, modifique as variáveis abaixo:
+  
+  --desktop-hint-card-width: Largura do card de dica à direita (padrão: 5rem)
+  --desktop-slider-margin: Margem esquerda do primeiro item (padrão: calculada automaticamente)
+  --desktop-slider-gap: Espaçamento entre os itens (padrão: var(--grid-desktop-horizontal-spacing))
+*/
+
+/* Ajuste o tamanho do card de dica à direita */
+slider-component {
+  --desktop-hint-card-width: 5rem; /* Altere este valor para ajustar o card de dica */
+}
+
+/* Para remover completamente o card de dica, descomente a linha abaixo: */
+.slider--desktop:after { display: none; } 
+
+/* Para mostrar mais itens visíveis, você pode ajustar a largura dos itens */
+/* Exemplo: mostrar 4 itens em vez de 3 em uma grade de 3 colunas */
+/* .slider--desktop.grid--3-col-desktop .grid__item {
+  width: calc((100% - var(--desktop-margin-left-first-item)) / 4 - var(--grid-desktop-horizontal-spacing) * 3);
+} */
+
+/* Para ajustar o espaçamento entre itens */
+/* .slider--desktop .grid__item {
+  margin-right: 2rem;
+} */ 
+
+@media screen and (min-width: 990px) {
+    .slider--desktop .slider__slide:first-child {
+        margin-left: 0;
+        scroll-margin-left: var(--desktop-margin-left-first-item);
+    }
+}

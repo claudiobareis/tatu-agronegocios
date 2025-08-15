@@ -1,0 +1,372 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_fgLY8y": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_ixWfN8": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Flyer-Sem-Preco-600x849.png",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_ixWfN8"
+      ],
+      "custom_css": [],
+      "name": "Apresentação de slides - Mobile",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Apresentação de slides sobre nossa marca",
+        "custom_class": "home-slide-mobile"
+      }
+    },
+    "slideshow_F6jEF7": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_77rhdk": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner-Full-1536x320.png",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_77rhdk"
+      ],
+      "name": "Apresentação de slides - Desktop",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Apresentação de slides sobre nossa marca",
+        "custom_class": "home-slide-desk"
+      }
+    },
+    "custom_liquid_tVmMnt": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"trust-badges-dark\">\n  <div class=\"badge-dark\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0888/6340/8312/files/tag.svg\" alt=\"Entrega para todo o brasil\">\n    <div>\n      <p class=\"title\">entrega para</p>\n      <p class=\"subtitle\">todo o brasil</p>\n    </div>\n  </div>\n  <div class=\"badge-dark\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0888/6340/8312/files/card.svg\" alt=\"Compras em até 10x sem juros\">\n    <div>\n      <p class=\"title\">compras em até</p>\n      <p class=\"subtitle\">10x sem juros</p>\n    </div>\n  </div>\n  <div class=\"badge-dark\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0888/6340/8312/files/tag.svg\" alt=\"Pix ou boleto 10% de desconto\">\n    <div>\n      <p class=\"title\">pix ou boleto</p>\n      <p class=\"subtitle\">10% de desconto*</p>\n    </div>\n  </div>\n  <div class=\"badge-dark\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0888/6340/8312/files/atendimento.svg\" alt=\"Atendimento via whatsapp\">\n    <div>\n      <p class=\"title\">atendimento</p>\n      <p class=\"subtitle\">whatsapp</p>\n    </div>\n  </div>\n</div>",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "collection_list_eaWR9Q": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_btzBD6": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vinil"
+          }
+        },
+        "featured_collection_jPmNRj": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "aquecimento"
+          }
+        },
+        "featured_collection_xnjmzC": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "capas"
+          }
+        },
+        "featured_collection_rUDDB4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "acessorios"
+          }
+        },
+        "featured_collection_3Jz9ah": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "aquecimento"
+          }
+        },
+        "featured_collection_VxK34C": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "iluminacao"
+          }
+        },
+        "featured_collection_yb7zPY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "produtos-quimicos"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_btzBD6",
+        "featured_collection_jPmNRj",
+        "featured_collection_xnjmzC",
+        "featured_collection_rUDDB4",
+        "featured_collection_3Jz9ah",
+        "featured_collection_VxK34C",
+        "featured_collection_yb7zPY"
+      ],
+      "settings": {
+        "title": "Navegue por categorias",
+        "heading_size": "h2",
+        "image_ratio": "adapt",
+        "columns_desktop": 6,
+        "color_scheme": "scheme-042ab565-34a7-4c21-9b06-7ba3a5263b51",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "enable_desktop_slider": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "vinil",
+        "products_to_show": 8,
+        "title": "Produtos em Destaque",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-042ab565-34a7-4c21-9b06-7ba3a5263b51",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "view_product",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_f83cdm": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify://shop_images/image.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "featured_collection_W8hjxA": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "iluminacao",
+        "products_to_show": 8,
+        "title": "Promoções",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-042ab565-34a7-4c21-9b06-7ba3a5263b51",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "view_product",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_9LTBPP": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify://shop_images/BANNER-FULL-SEMANA-2.png",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "collection_list_QdDkeP": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_QAhiQ8": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sale"
+          }
+        },
+        "featured_collection_KjUndi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "feminino"
+          }
+        },
+        "featured_collection_TNpH6G": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "nikemaxoptics"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_QAhiQ8",
+        "featured_collection_KjUndi",
+        "featured_collection_TNpH6G"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "enable_desktop_slider": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_9PTgXX": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "capas",
+        "products_to_show": 8,
+        "title": "Mais Vendidos",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-042ab565-34a7-4c21-9b06-7ba3a5263b51",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "view_product",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "newsletter_GiiKy8": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_phWhkC": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quer ter acesso em primeira mão? Deixe seu email aqui",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph_haFLMW": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Seja a primeira pessoa a saber sobre novas coleções e ofertas exclusivas.</p>"
+          }
+        },
+        "email_form_EYFjfE": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_phWhkC",
+        "paragraph_haFLMW",
+        "email_form_EYFjfE"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "slideshow_fgLY8y",
+    "slideshow_F6jEF7",
+    "custom_liquid_tVmMnt",
+    "collection_list_eaWR9Q",
+    "featured_collection",
+    "image_banner_f83cdm",
+    "featured_collection_W8hjxA",
+    "image_banner_9LTBPP",
+    "collection_list_QdDkeP",
+    "featured_collection_9PTgXX",
+    "newsletter_GiiKy8"
+  ]
+}
