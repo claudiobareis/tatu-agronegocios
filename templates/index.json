@@ -15,7 +15,6 @@
         "slide_ixWfN8": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Flyer-Sem-Preco-600x849.png",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -54,7 +53,7 @@
         "slide_77rhdk": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner-Full-1536x320.png",
+            "image": "shopify://shop_images/Group_231.png",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -195,7 +194,6 @@
     "image_banner_f83cdm": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify://shop_images/image.jpg",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
         "image_behavior": "none",
@@ -239,7 +237,6 @@
     "image_banner_9LTBPP": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify://shop_images/BANNER-FULL-SEMANA-2.png",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
         "image_behavior": "none",
