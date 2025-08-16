@@ -1,0 +1,54 @@
+{%- comment -%} Organizador de Grupos do Footer {%- endcomment -%}
+{%- comment -%} Este snippet permite organizar os grupos do footer na ordem desejada {%- endcomment -%}
+
+{%- comment -%} Grupo 1: Informações da Marca {%- endcomment -%}
+{%- if block.type == 'brand_information' -%}
+  {%- render 'footer-brand-group', block: block -%}
+{%- endif -%}
+
+{%- comment -%} Grupo 2: Título Principal {%- endcomment -%}
+{%- if block.settings.heading != blank and block.type != 'brand_information' -%}
+  <div class="footer-block__group footer-heading-group">
+    <h3 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h3>
+  </div>
+{%- endif -%}
+
+{%- comment -%} Grupo 3: Conteúdo Principal {%- endcomment -%}
+{%- case block.type -%}
+  {%- when '@app' -%}
+    <div class="footer-block__group footer-app-group">
+      {% render block %}
+    </div>
+  {%- when 'text' -%}
+    {%- render 'footer-text-group', block: block -%}
+  {%- when 'link_list' -%}
+    {%- render 'footer-menu-group', block: block -%}
+  {%- when 'image' -%}
+    {%- render 'footer-image-group', block: block -%}
+  {%- when 'newsletter' -%}
+    {%- render 'footer-newsletter-group', block: block -%}
+  {%- when 'contact_info' -%}
+    {%- render 'footer-contact-group', block: block -%}
+  {%- when 'custom_html' -%}
+    {%- render 'footer-custom-html-group', block: block -%}
+{%- endcase -%}
+
+{%- comment -%} Grupo 4: Elementos Adicionais {%- endcomment -%}
+{%- if block.type == 'brand_information' and block.settings.show_social and has_social_icons -%}
+  {%- render 'footer-social-group', block: block -%}
+{%- endif -%}
+
+{%- comment -%} Grupo 5: Newsletter Adicional {%- endcomment -%}
+{%- if block.settings.show_newsletter and block.type != 'newsletter' -%}
+  {%- render 'footer-newsletter-group', block: block -%}
+{%- endif -%}
+
+{%- comment -%} Grupo 6: Botão Adicional {%- endcomment -%}
+{%- if block.settings.show_button and block.settings.button_text != blank and block.settings.button_url != blank -%}
+  {%- render 'footer-button-group', block: block -%}
+{%- endif -%}
+
+{%- comment -%} Grupo 7: Redes Sociais Adicionais {%- endcomment -%}
+{%- if block.settings.show_social_icons and has_social_icons and block.type != 'brand_information' -%}
+  {%- render 'footer-social-group', block: block -%}
+{%- endif -%}

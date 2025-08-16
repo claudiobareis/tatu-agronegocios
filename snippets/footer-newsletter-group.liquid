@@ -1,0 +1,32 @@
+{%- comment -%} Grupo de Newsletter do Footer {%- endcomment -%}
+{%- if block.settings.show_newsletter -%}
+  <div class="footer-block__group footer-newsletter-group">
+    <div class="footer-block__newsletter">
+      {%- if block.settings.newsletter_heading != blank -%}
+        <h3 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h3>
+      {%- endif -%}
+      
+      {%- if block.settings.newsletter_description != blank -%}
+        <div class="rte">{{ block.settings.newsletter_description }}</div>
+      {%- endif -%}
+      
+      {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="newsletter-form__field-wrapper">
+          <div class="field">
+            <input 
+              type="email" 
+              name="contact[email]" 
+              class="field__input" 
+              placeholder="{{ 'newsletter.label' | t }}" 
+              required
+            >
+            <button type="submit" class="newsletter-form__button field__button">
+              <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+            </button>
+          </div>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+{%- endif -%}

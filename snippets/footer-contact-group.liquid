@@ -1,0 +1,27 @@
+{%- comment -%} Grupo de Contato do Footer {%- endcomment -%}
+<div class="footer-block__group footer-contact-group">
+  {%- if block.settings.phone != blank or block.settings.email != blank or block.settings.address != blank -%}
+    <div class="footer-block__contact">
+      {%- if block.settings.phone != blank -%}
+        <p class="footer-contact__item">
+          <span class="footer-contact__icon">📞</span>
+          <strong>Telefone:</strong> {{ block.settings.phone }}
+        </p>
+      {%- endif -%}
+      
+      {%- if block.settings.email != blank -%}
+        <p class="footer-contact__item">
+          <span class="footer-contact__icon">✉️</span>
+          <strong>E-mail:</strong> {{ block.settings.email }}
+        </p>
+      {%- endif -%}
+      
+      {%- if block.settings.address != blank -%}
+        <p class="footer-contact__item">
+          <span class="footer-contact__icon">📍</span>
+          <strong>Endereço:</strong> {{ block.settings.address }}
+        </p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

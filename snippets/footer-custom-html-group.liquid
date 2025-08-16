@@ -1,0 +1,12 @@
+{%- comment -%} Grupo de HTML Personalizado do Footer {%- endcomment -%}
+{%- if block.settings.custom_html != blank -%}
+  <div class="footer-block__group footer-custom-html-group">
+    {%- if block.settings.heading != blank -%}
+      <h3 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h3>
+    {%- endif -%}
+    
+    <div class="footer-block__custom">                       
+      {{ block.settings.custom_html }}
+    </div>
+  </div>
+{%- endif -%}
