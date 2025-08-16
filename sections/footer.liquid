@@ -26,6 +26,26 @@
     }
   }
 
+  /* Força sempre 4 colunas no footer */
+  .footer__blocks-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .footer__blocks-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .footer__blocks-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Estilo para os grupos dentro de cada coluna */
   .footer-block__group {
     margin-bottom: 1.5rem;
   }
@@ -64,30 +84,25 @@
     {%- unless only_empty_brand -%}
       <div class="footer__content-top page-width">
         {%- if section.blocks.size > 0 -%}
-          {%- liquid
-            if section.blocks.size == 9
-              assign footer_grid_class = 'grid--3-col-tablet'
-            elsif section.blocks.size > 6
-              assign footer_grid_class = 'grid--4-col-desktop'
-            elsif section.blocks.size > 4
-              assign footer_grid_class = 'grid--3-col-tablet'
-            endif
-          -%}
+          {%- comment -%} Força sempre 4 colunas para o footer {%- endcomment -%}
           <div
-            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet grid--4-col-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
               data-cascade
             {% endif %}
           >
-            {%- for block in section.blocks -%}
-              <div
-                class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                  data-cascade
-                  style="--animation-order: {{ forloop.index }};"
-                {% endif %}
-              >
+            {%- comment -%} Coluna 1: Logo e Marca {%- endcomment -%}
+            <div class="footer-block grid__item footer-column--1">
+              {%- for block in section.blocks -%}
+                {%- if block.settings.column_position == '1' or block.settings.column_position == blank and forloop.first -%}
+                  <div
+                    class="footer-block{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {{ block.shopify_attributes }}
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
                 {%- comment -%} Primeiro grupo - Título principal {%- endcomment -%}
                 {%- if block.settings.heading != blank -%}
                   <div class="footer-block__group">
@@ -255,8 +270,563 @@
                     {%- render 'social-icons', class: 'footer__list-social' -%}
                   </div>
                 {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%} Coluna 2: Menu e Links {%- endcomment -%}
+            <div class="footer-block grid__item footer-column--2">
+              {%- for block in section.blocks -%}
+                {%- if block.settings.column_position == '2' -%}
+                  <div
+                    class="footer-block{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {{ block.shopify_attributes }}
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {%- comment -%} Primeiro grupo - Título principal {%- endcomment -%}
+                    {%- if block.settings.heading != blank -%}
+                      <div class="footer-block__group">
+                        <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Segundo grupo - Conteúdo principal {%- endcomment -%}
+                    <div class="footer-block__group">
+                      {%- case block.type -%}
+                        {%- when '@app' -%}
+                          {% render block %}
+                        {%- when 'text' -%}
+                          <div class="footer-block__details-content rte">
+                            {{ block.settings.subtext }}
+                          </div>
+                        {%- when 'link_list' -%}
+                          {%- if block.settings.menu != blank -%}
+                            <ul class="footer-block__details-content list-unstyled">
+                              {%- for link in block.settings.menu.links -%}
+                                <li>
+                                  <a
+                                    href="{{ link.url }}"
+                                    class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                                  >
+                                    {{ link.title | escape }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        {%- when 'brand_information' -%}
+                          <div class="footer-block__brand-info">
+                            {%- if settings.brand_image != blank -%}
+                              {%- assign brand_image_height = settings.brand_image_width
+                                | divided_by: settings.brand_image.aspect_ratio
+                              -%}
+                              <div
+                                class="footer-block__image-wrapper"
+                                style="max-width: min(100%, {{ settings.brand_image_width }}px);"
+                              >
+                                {{
+                                  settings.brand_image
+                                  | image_url: width: 1100
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                                    height: brand_image_height,
+                                    width: settings.brand_image_width
+                                }}
+                              </div>
+                            {%- endif -%}
+                            {%- if settings.brand_headline != blank -%}
+                              <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                            {%- endif -%}
+                            {%- if settings.brand_description != blank -%}
+                              <div class="rte">{{ settings.brand_description }}</div>
+                            {%- endif -%}
+                          </div>
+                        {%- when 'image' -%}
+                          <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                            {%- if block.settings.image != blank -%}
+                              {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                              <div
+                                class="footer-block__image-wrapper"
+                                style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                              >
+                                <img
+                                  srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                                  src="{{ block.settings.image | image_url: width: 760 }}"
+                                  alt="{{ block.settings.image.alt | escape }}"
+                                  loading="lazy"
+                                  width="{{ block.settings.image.width }}"
+                                  height="{{ block.settings.image.height }}"
+                                >
+                              </div>
+                            {%- else -%}
+                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                            {%- endif -%}
+                          </div>
+                        {%- when 'newsletter' -%}
+                          <div class="footer-block__newsletter">
+                            {%- if block.settings.description != blank -%}
+                              <div class="rte">{{ block.settings.description }}</div>
+                            {%- endif -%}
+                            {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                              <input type="hidden" name="contact[tags]" value="newsletter">
+                              <div class="newsletter-form__field-wrapper">
+                                <div class="field">
+                                  <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                  <button type="submit" class="newsletter-form__button field__button">
+                                    <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                  </button>
+                                </div>
+                              </div>
+                            {%- endform -%}
+                          </div>
+                        {%- when 'social_media' -%}
+                          <div class="footer-block__social">
+                            {%- render 'social-icons', class: 'footer__list-social' -%}
+                          </div>
+                        {%- when 'contact_info' -%}
+                          <div class="footer-block__contact">
+                            {%- if block.settings.phone != blank -%}
+                              <p><strong>Telefone:</strong> {{ block.settings.phone }}</p>
+                            {%- endif -%}
+                            {%- if block.settings.email != blank -%}
+                              <p><strong>E-mail:</strong> {{ block.settings.email }}</p>
+                            {%- endif -%}
+                            {%- if block.settings.address != blank -%}
+                              <p><strong>Endereço:</strong> {{ block.settings.address }}</p>
+                            {%- endif -%}
+                          </div>
+                        {%- when 'custom_html' -%}
+                          <div class="footer-block__custom">                       
+                            {{ block.settings.custom_html }}
+                          </div>
+                      {%- endcase -%}
+                    </div>
+
+                    {%- comment -%} Terceiro grupo - Elementos adicionais {%- endcomment -%}
+                    {%- if block.type == 'brand_information' and block.settings.show_social and has_social_icons -%}
+                      <div class="footer-block__group">
+                        {%- render 'social-icons', class: 'footer__list-social' -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Quarto grupo - Newsletter adicional {%- endcomment -%}
+                    {%- if block.settings.show_newsletter -%}
+                      <div class="footer-block__group">
+                        <div class="footer-block__newsletter">
+                          {%- if block.settings.newsletter_heading != blank -%}
+                            <h3 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h3>
+                          {%- endif -%}
+                          {%- if block.settings.newsletter_description != blank -%}
+                            <div class="rte">{{ block.settings.newsletter_description }}</div>
+                          {%- endif -%}
+                          {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <div class="newsletter-form__field-wrapper">
+                              <div class="field">
+                                <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                <button type="submit" class="newsletter-form__button field__button">
+                                  <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                </button>
+                              </div>
+                            </div>
+                          {%- endform -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Quinto grupo - Botão adicional {%- endcomment -%}
+                    {%- if block.settings.show_button and block.settings.button_text != blank and block.settings.button_url != blank -%}
+                      <div class="footer-block__group">
+                        <a href="{{ block.settings.button_url }}" class="button button--primary">
+                          {{ block.settings.button_text }}
+                        </a>
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Sexto grupo - Redes sociais adicionais {%- endcomment -%}
+                    {%- if block.settings.show_social_icons and has_social_icons -%}
+                      <div class="footer-block__group">
+                        {%- render 'social-icons', class: 'footer__list-social' -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%} Coluna 3: Newsletter e Contato {%- endcomment -%}
+            <div class="footer-block grid__item footer-column--3">
+              {%- for block in section.blocks -%}
+                {%- if block.settings.column_position == '3' -%}
+                  <div
+                    class="footer-block{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {{ block.shopify_attributes }}
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {%- comment -%} Primeiro grupo - Título principal {%- endcomment -%}
+                    {%- if block.settings.heading != blank -%}
+                      <div class="footer-block__group">
+                        <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Segundo grupo - Conteúdo principal {%- endcomment -%}
+                    <div class="footer-block__group">
+                      {%- case block.type -%}
+                        {%- when '@app' -%}
+                          {% render block %}
+                        {%- when 'text' -%}
+                          <div class="footer-block__details-content rte">
+                            {{ block.settings.subtext }}
+                          </div>
+                        {%- when 'link_list' -%}
+                          {%- if block.settings.menu != blank -%}
+                            <ul class="footer-block__details-content list-unstyled">
+                              {%- for link in block.settings.menu.links -%}
+                                <li>
+                                  <a
+                                    href="{{ link.url }}"
+                                    class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                                  >
+                                    {{ link.title | escape }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        {%- when 'brand_information' -%}
+                          <div class="footer-block__brand-info">
+                            {%- if settings.brand_image != blank -%}
+                              {%- assign brand_image_height = settings.brand_image_width
+                                | divided_by: settings.brand_image.aspect_ratio
+                              -%}
+                              <div
+                                class="footer-block__image-wrapper"
+                                style="max-width: min(100%, {{ settings.brand_image_width }}px);"
+                              >
+                                {{
+                                  settings.brand_image
+                                  | image_url: width: 1100
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                                    height: brand_image_height,
+                                    width: settings.brand_image_width
+                                }}
+                              </div>
+                            {%- endif -%}
+                            {%- if settings.brand_headline != blank -%}
+                              <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                            {%- endif -%}
+                            {%- if settings.brand_description != blank -%}
+                              <div class="rte">{{ settings.brand_description }}</div>
+                            {%- endif -%}
+                          </div>
+                        {%- when 'image' -%}
+                          <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                            {%- if block.settings.image != blank -%}
+                              {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                              <div
+                                class="footer-block__image-wrapper"
+                                style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                              >
+                                <img
+                                  srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                                  src="{{ block.settings.image | image_url: width: 760 }}"
+                                  alt="{{ block.settings.image.alt | escape }}"
+                                  loading="lazy"
+                                  width="{{ block.settings.image.width }}"
+                                  height="{{ block.settings.image.height }}"
+                                >
+                              </div>
+                            {%- else -%}
+                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                            {%- endif -%}
+                          </div>
+                        {%- when 'newsletter' -%}
+                          <div class="footer-block__newsletter">
+                            {%- if block.settings.description != blank -%}
+                              <div class="rte">{{ block.settings.description }}</div>
+                            {%- endif -%}
+                            {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                              <input type="hidden" name="contact[tags]" value="newsletter">
+                              <div class="newsletter-form__field-wrapper">
+                                <div class="field">
+                                  <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                  <button type="submit" class="newsletter-form__button field__button">
+                                    <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                  </button>
+                                </div>
+                              </div>
+                            {%- endform -%}
+                          </div>
+                        {%- when 'social_media' -%}
+                          <div class="footer-block__social">
+                            {%- render 'social-icons', class: 'footer__list-social' -%}
+                          </div>
+                        {%- when 'contact_info' -%}
+                          <div class="footer-block__contact">
+                            {%- if block.settings.phone != blank -%}
+                              <p><strong>Telefone:</strong> {{ block.settings.phone }}</p>
+                            {%- endif -%}
+                            {%- if block.settings.email != blank -%}
+                              <p><strong>E-mail:</strong> {{ block.settings.email }}</p>
+                            {%- endif -%}
+                            {%- if block.settings.address != blank -%}
+                              <p><strong>Endereço:</strong> {{ block.settings.address }}</p>
+                            {%- endif -%}
+                          </div>
+                        {%- when 'custom_html' -%}
+                          <div class="footer-block__custom">                       
+                            {{ block.settings.custom_html }}
+                          </div>
+                      {%- endcase -%}
+                    </div>
+
+                    {%- comment -%} Terceiro grupo - Elementos adicionais {%- endcomment -%}
+                    {%- if block.type == 'brand_information' and block.settings.show_social and has_social_icons -%}
+                      <div class="footer-block__group">
+                        {%- render 'social-icons', class: 'footer__list-social' -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- comment -%} Quarto grupo - Newsletter adicional {%- endcomment -%}
+                    {%- if block.settings.show_newsletter -%}
+                      <div class="footer-block__group">
+                        <div class="footer-block__newsletter">
+                          {%- if block.settings.newsletter_heading != blank -%}
+                            <h3 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h3>
+                          {%- endif -%}
+                          {%- if block.settings.newsletter_description != blank -%}
+                            <div class="rte">{{ block.settings.newsletter_description }}</div>
+                          {%- endif -%}
+                          {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <div class="newsletter-form__field-wrapper">
+                              <div class="field">
+                                <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                <button type="submit" class="newsletter-form__button field__button">
+                                  <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                </button>
+                                </div>
+                              </div>
+                            {%- endform -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Quinto grupo - Botão adicional {%- endcomment -%}
+                      {%- if block.settings.show_button and block.settings.button_text != blank and block.settings.button_url != blank -%}
+                        <div class="footer-block__group">
+                          <a href="{{ block.settings.button_url }}" class="button button--primary">
+                            {{ block.settings.button_text }}
+                          </a>
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Sexto grupo - Redes sociais adicionais {%- endcomment -%}
+                      {%- if block.settings.show_social_icons and has_social_icons -%}
+                        <div class="footer-block__group">
+                          {%- render 'social-icons', class: 'footer__list-social' -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
               </div>
-            {%- endfor -%}
+
+              {%- comment -%} Coluna 4: Outros elementos {%- endcomment -%}
+              <div class="footer-block grid__item footer-column--4">
+                {%- for block in section.blocks -%}
+                  {%- if block.settings.column_position == '4' -%}
+                    <div
+                      class="footer-block{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      {{ block.shopify_attributes }}
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ forloop.index }};"
+                      {% endif %}
+                    >
+                      {%- comment -%} Primeiro grupo - Título principal {%- endcomment -%}
+                      {%- if block.settings.heading != blank -%}
+                        <div class="footer-block__group">
+                          <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Segundo grupo - Conteúdo principal {%- endcomment -%}
+                      <div class="footer-block__group">
+                        {%- case block.type -%}
+                          {%- when '@app' -%}
+                            {% render block %}
+                          {%- when 'text' -%}
+                            <div class="footer-block__details-content rte">
+                              {{ block.settings.subtext }}
+                            </div>
+                          {%- when 'link_list' -%}
+                            {%- if block.settings.menu != blank -%}
+                              <ul class="footer-block__details-content list-unstyled">
+                                {%- for link in block.settings.menu.links -%}
+                                  <li>
+                                    <a
+                                      href="{{ link.url }}"
+                                      class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                                    >
+                                      {{ link.title | escape }}
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            {%- endif -%}
+                          {%- when 'brand_information' -%}
+                            <div class="footer-block__brand-info">
+                              {%- if settings.brand_image != blank -%}
+                                {%- assign brand_image_height = settings.brand_image_width
+                                  | divided_by: settings.brand_image.aspect_ratio
+                                -%}
+                                <div
+                                  class="footer-block__image-wrapper"
+                                  style="max-width: min(100%, {{ settings.brand_image_width }}px);"
+                                >
+                                  {{
+                                    settings.brand_image
+                                    | image_url: width: 1100
+                                    | image_tag:
+                                      loading: 'lazy',
+                                      widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                                      height: brand_image_height,
+                                      width: settings.brand_image_width
+                                  }}
+                                </div>
+                              {%- endif -%}
+                              {%- if settings.brand_headline != blank -%}
+                                <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                              {%- endif -%}
+                              {%- if settings.brand_description != blank -%}
+                                <div class="rte">{{ settings.brand_description }}</div>
+                              {%- endif -%}
+                            </div>
+                          {%- when 'image' -%}
+                            <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                              {%- if block.settings.image != blank -%}
+                                {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                                <div
+                                  class="footer-block__image-wrapper"
+                                  style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                                >
+                                  <img
+                                    srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                                    src="{{ block.settings.image | image_url: width: 760 }}"
+                                    alt="{{ block.settings.image.alt | escape }}"
+                                    loading: "lazy"
+                                    width="{{ block.settings.image.width }}"
+                                    height="{{ block.settings.image.height }}"
+                                  >
+                                </div>
+                              {%- else -%}
+                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                              {%- endif -%}
+                            </div>
+                          {%- when 'newsletter' -%}
+                            <div class="footer-block__newsletter">
+                              {%- if block.settings.description != blank -%}
+                                <div class="rte">{{ block.settings.description }}</div>
+                              {%- endif -%}
+                              {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                                <input type="hidden" name="contact[tags]" value="newsletter">
+                                <div class="newsletter-form__field-wrapper">
+                                  <div class="field">
+                                    <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                    <button type="submit" class="newsletter-form__button field__button">
+                                      <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              {%- endform -%}
+                            </div>
+                          {%- when 'social_media' -%}
+                            <div class="footer-block__social">
+                              {%- render 'social-icons', class: 'footer__list-social' -%}
+                            </div>
+                          {%- when 'contact_info' -%}
+                            <div class="footer-block__contact">
+                              {%- if block.settings.phone != blank -%}
+                                <p><strong>Telefone:</strong> {{ block.settings.phone }}</p>
+                              {%- endif -%}
+                              {%- if block.settings.email != blank -%}
+                                <p><strong>E-mail:</strong> {{ block.settings.email }}</p>
+                              {%- endif -%}
+                              {%- if block.settings.address != blank -%}
+                                <p><strong>Endereço:</strong> {{ block.settings.address }}</p>
+                              {%- endif -%}
+                            </div>
+                          {%- when 'custom_html' -%}
+                            <div class="footer-block__custom">                       
+                              {{ block.settings.custom_html }}
+                            </div>
+                        {%- endcase -%}
+                      </div>
+
+                      {%- comment -%} Terceiro grupo - Elementos adicionais {%- endcomment -%}
+                      {%- if block.type == 'brand_information' and block.settings.show_social and has_social_icons -%}
+                        <div class="footer-block__group">
+                          {%- render 'social-icons', class: 'footer__list-social' -%}
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Quarto grupo - Newsletter adicional {%- endcomment -%}
+                      {%- if block.settings.show_newsletter -%}
+                        <div class="footer-block__group">
+                          <div class="footer-block__newsletter">
+                            {%- if block.settings.newsletter_heading != blank -%}
+                              <h3 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h3>
+                            {%- endif -%}
+                            {%- if block.settings.newsletter_description != blank -%}
+                              <div class="rte">{{ block.settings.newsletter_description }}</div>
+                            {%- endif -%}
+                            {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                              <input type="hidden" name="contact[tags]" value="newsletter">
+                              <div class="newsletter-form__field-wrapper">
+                                <div class="field">
+                                  <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                                  <button type="submit" class="newsletter-form__button field__button">
+                                    <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                                  </button>
+                                </div>
+                              </div>
+                            {%- endform -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Quinto grupo - Botão adicional {%- endcomment -%}
+                      {%- if block.settings.show_button and block.settings.button_text != blank and block.settings.button_url != blank -%}
+                        <div class="footer-block__group">
+                          <a href="{{ block.settings.button_url }}" class="button button--primary">
+                            {{ block.settings.button_text }}
+                          </a>
+                        </div>
+                      {%- endif -%}
+
+                      {%- comment -%} Sexto grupo - Redes sociais adicionais {%- endcomment -%}
+                      {%- if block.settings.show_social_icons and has_social_icons -%}
+                        <div class="footer-block__group">
+                          {%- render 'social-icons', class: 'footer__list-social' -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
           </div>
         {%- endif -%}
 
@@ -436,6 +1006,30 @@
       "name": "t:sections.footer.blocks.link_list.name",
       "settings": [
         {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "1"
+        },
+        {
           "type": "inline_richtext",
           "id": "heading",
           "default": "t:sections.footer.blocks.link_list.settings.heading.default",
@@ -498,6 +1092,30 @@
       "name": "t:sections.footer.blocks.brand_information.name",
       "settings": [
         {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "1"
+        },
+        {
           "type": "paragraph",
           "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
         },
@@ -558,6 +1176,30 @@
       "type": "text",
       "name": "t:sections.footer.blocks.text.name",
       "settings": [
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "2"
+        },
         {
           "type": "inline_richtext",
           "id": "heading",
@@ -620,6 +1262,30 @@
       "type": "image",
       "name": "Image",
       "settings": [
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "1"
+        },
         {
           "type": "image_picker",
           "id": "image",
@@ -706,6 +1372,30 @@
       "name": "Newsletter",
       "settings": [
         {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "3"
+        },
+        {
           "type": "inline_richtext",
           "id": "heading",
           "label": "Título",
@@ -749,6 +1439,30 @@
       "type": "social_media",
       "name": "Redes Sociais",
       "settings": [
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "1"
+        },
         {
           "type": "inline_richtext",
           "id": "heading",
@@ -799,6 +1513,30 @@
       "type": "contact_info",
       "name": "Informações de Contato",
       "settings": [
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "3"
+        },
         {
           "type": "inline_richtext",
           "id": "heading",
@@ -870,6 +1608,30 @@
       "type": "custom_html",
       "name": "HTML Personalizado",
       "settings": [
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Posição da Coluna",
+          "options": [
+            {
+              "value": "1",
+              "label": "Coluna 1 - Logo e Marca"
+            },
+            {
+              "value": "2",
+              "label": "Coluna 2 - Menu e Links"
+            },
+            {
+              "value": "3",
+              "label": "Coluna 3 - Newsletter e Contato"
+            },
+            {
+              "value": "4",
+              "label": "Coluna 4 - Outros Elementos"
+            }
+          ],
+          "default": "4"
+        },
         {
           "type": "inline_richtext",
           "id": "heading",
