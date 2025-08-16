@@ -25,6 +25,19 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .footer-block__group {
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-block__group:last-child {
+    margin-bottom: 0;
+  }
+
+  .footer-block__group + .footer-block__group {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(var(--color-foreground), 0.1);
+  }
 {%- endstyle -%}
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
@@ -75,90 +88,88 @@
                   style="--animation-order: {{ forloop.index }};"
                 {% endif %}
               >
+                {%- comment -%} Primeiro grupo - Título principal {%- endcomment -%}
                 {%- if block.settings.heading != blank -%}
-                  <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                  <div class="footer-block__group">
+                    <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                  </div>
                 {%- endif -%}
 
-                {%- case block.type -%}
-                  {%- when '@app' -%}
-                    {% render block %}
-                  {%- when 'text' -%}
-                    <div class="footer-block__details-content rte">
-                      {{ block.settings.subtext }}
-                    </div>
-                  {%- when 'link_list' -%}
-                    {%- if block.settings.menu != blank -%}
-                      <ul class="footer-block__details-content list-unstyled">
-                        {%- for link in block.settings.menu.links -%}
-                          <li>
-                            <a
-                              href="{{ link.url }}"
-                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                            >
-                              {{ link.title | escape }}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    {%- endif -%}
-                  {%- when 'brand_information' -%}
-                    <div class="footer-block__brand-info">
-                      {%- if settings.brand_image != blank -%}
-                        {%- assign brand_image_height = settings.brand_image_width
-                          | divided_by: settings.brand_image.aspect_ratio
-                        -%}
-                        <div
-                          class="footer-block__image-wrapper"
-                          style="max-width: min(100%, {{ settings.brand_image_width }}px);"
-                        >
-                          {{
-                            settings.brand_image
-                            | image_url: width: 1100
-                            | image_tag:
-                              loading: 'lazy',
-                              widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
-                              height: brand_image_height,
-                              width: settings.brand_image_width
-                          }}
-                        </div>
+                {%- comment -%} Segundo grupo - Conteúdo principal {%- endcomment -%}
+                <div class="footer-block__group">
+                  {%- case block.type -%}
+                    {%- when '@app' -%}
+                      {% render block %}
+                    {%- when 'text' -%}
+                      <div class="footer-block__details-content rte">
+                        {{ block.settings.subtext }}
+                      </div>
+                    {%- when 'link_list' -%}
+                      {%- if block.settings.menu != blank -%}
+                        <ul class="footer-block__details-content list-unstyled">
+                          {%- for link in block.settings.menu.links -%}
+                            <li>
+                              <a
+                                href="{{ link.url }}"
+                                class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                              >
+                                {{ link.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
                       {%- endif -%}
-                      {%- if settings.brand_headline != blank -%}
-                        <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
-                      {%- endif -%}
-                      {%- if settings.brand_description != blank -%}
-                        <div class="rte">{{ settings.brand_description }}</div>
-                      {%- endif -%}
-                      {%- if block.settings.show_social and has_social_icons -%}
-                        {%- render 'social-icons', class: 'footer__list-social' -%}
-                      {%- endif -%}
-                    </div>
-                  {%- when 'image' -%}
-                    <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
-                      {%- if block.settings.image != blank -%}
-                        {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
-                        <div
-                          class="footer-block__image-wrapper"
-                          style="max-width: min(100%, {{ block.settings.image_width }}px);"
-                        >
-                          <img
-                            srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
-                            src="{{ block.settings.image | image_url: width: 760 }}"
-                            alt="{{ block.settings.image.alt | escape }}"
-                            loading="lazy"
-                            width="{{ block.settings.image.width }}"
-                            height="{{ block.settings.image.height }}"
+                    {%- when 'brand_information' -%}
+                      <div class="footer-block__brand-info">
+                        {%- if settings.brand_image != blank -%}
+                          {%- assign brand_image_height = settings.brand_image_width
+                            | divided_by: settings.brand_image.aspect_ratio
+                          -%}
+                          <div
+                            class="footer-block__image-wrapper"
+                            style="max-width: min(100%, {{ settings.brand_image_width }}px);"
                           >
-                        </div>
-                      {%- else -%}
-                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
-                      {%- endif -%}
-                    </div>
-
+                            {{
+                              settings.brand_image
+                              | image_url: width: 1100
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                                height: brand_image_height,
+                                width: settings.brand_image_width
+                            }}
+                          </div>
+                        {%- endif -%}
+                        {%- if settings.brand_headline != blank -%}
+                          <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                        {%- endif -%}
+                        {%- if settings.brand_description != blank -%}
+                          <div class="rte">{{ settings.brand_description }}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- when 'image' -%}
+                      <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                        {%- if block.settings.image != blank -%}
+                          {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                          <div
+                            class="footer-block__image-wrapper"
+                            style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                          >
+                            <img
+                              srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                              src="{{ block.settings.image | image_url: width: 760 }}"
+                              alt="{{ block.settings.image.alt | escape }}"
+                              loading="lazy"
+                              width="{{ block.settings.image.width }}"
+                              height="{{ block.settings.image.height }}"
+                            >
+                          </div>
+                        {%- else -%}
+                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                        {%- endif -%}
+                      </div>
                     {%- when 'newsletter' -%}
                       <div class="footer-block__newsletter">
-                        {%- if block.settings.heading != blank -%}
-                          <h3 class="footer-block__heading inline-richtext">{{ block.settings.heading }}</h3>
-                        {%- endif -%}
                         {%- if block.settings.description != blank -%}
                           <div class="rte">{{ block.settings.description }}</div>
                         {%- endif -%}
@@ -174,20 +185,12 @@
                           </div>
                         {%- endform -%}
                       </div>
-                      
-                      {%- when 'social_media' -%}
+                    {%- when 'social_media' -%}
                       <div class="footer-block__social">
-                        {%- if block.settings.heading != blank -%}
-                          <h3 class="footer-block__heading inline-richtext">{{ block.settings.heading }}</h3>
-                        {%- endif -%}
                         {%- render 'social-icons', class: 'footer__list-social' -%}
                       </div>
-                      
-                      {%- when 'contact_info' -%}
+                    {%- when 'contact_info' -%}
                       <div class="footer-block__contact">
-                        {%- if block.settings.heading != blank -%}
-                          <h3 class="footer-block__heading inline-richtext">{{ block.settings.heading }}</h3>
-                        {%- endif -%}
                         {%- if block.settings.phone != blank -%}
                           <p><strong>Telefone:</strong> {{ block.settings.phone }}</p>
                         {%- endif -%}
@@ -198,13 +201,60 @@
                           <p><strong>Endereço:</strong> {{ block.settings.address }}</p>
                         {%- endif -%}
                       </div>
-                      
-                      {%- when 'custom_html' -%}
+                    {%- when 'custom_html' -%}
                       <div class="footer-block__custom">                       
                         {{ block.settings.custom_html }}
                       </div>
+                  {%- endcase -%}
+                </div>
 
-                {%- endcase -%}
+                {%- comment -%} Terceiro grupo - Elementos adicionais {%- endcomment -%}
+                {%- if block.type == 'brand_information' and block.settings.show_social and has_social_icons -%}
+                  <div class="footer-block__group">
+                    {%- render 'social-icons', class: 'footer__list-social' -%}
+                  </div>
+                {%- endif -%}
+
+                {%- comment -%} Quarto grupo - Newsletter adicional {%- endcomment -%}
+                {%- if block.settings.show_newsletter -%}
+                  <div class="footer-block__group">
+                    <div class="footer-block__newsletter">
+                      {%- if block.settings.newsletter_heading != blank -%}
+                        <h3 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h3>
+                      {%- endif -%}
+                      {%- if block.settings.newsletter_description != blank -%}
+                        <div class="rte">{{ block.settings.newsletter_description }}</div>
+                      {%- endif -%}
+                      {%- form 'customer', class: 'footer__newsletter newsletter-form' -%}
+                        <input type="hidden" name="contact[tags]" value="newsletter">
+                        <div class="newsletter-form__field-wrapper">
+                          <div class="field">
+                            <input type="email" name="contact[email]" class="field__input" placeholder="{{ 'newsletter.label' | t }}" required>
+                            <button type="submit" class="newsletter-form__button field__button">
+                              <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                            </button>
+                          </div>
+                        </div>
+                      {%- endform -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- comment -%} Quinto grupo - Botão adicional {%- endcomment -%}
+                {%- if block.settings.show_button and block.settings.button_text != blank and block.settings.button_url != blank -%}
+                  <div class="footer-block__group">
+                    <a href="{{ block.settings.button_url }}" class="button button--primary">
+                      {{ block.settings.button_text }}
+                    </a>
+                  </div>
+                {%- endif -%}
+
+                {%- comment -%} Sexto grupo - Redes sociais adicionais {%- endcomment -%}
+                {%- if block.settings.show_social_icons and has_social_icons -%}
+                  <div class="footer-block__group">
+                    {%- render 'social-icons', class: 'footer__list-social' -%}
+                  </div>
+                {%- endif -%}
               </div>
             {%- endfor -%}
           </div>
@@ -348,6 +398,7 @@
         {%- endif -%}
       </div>
     </div>
+    
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
       <div class="footer__copyright caption">
         <small class="copyright__content"
@@ -369,6 +420,7 @@
         {%- endif -%}
       </div>
     </div>
+
   </div>
 </footer>
 
@@ -394,6 +446,50 @@
           "id": "menu",
           "default": "footer",
           "label": "t:sections.footer.blocks.link_list.settings.menu.label"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -411,6 +507,50 @@
           "default": true,
           "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
           "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -429,6 +569,50 @@
           "id": "subtext",
           "default": "t:sections.footer.blocks.text.settings.subtext.default",
           "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -470,6 +654,50 @@
             }
           ],
           "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -487,6 +715,33 @@
           "type": "richtext",
           "id": "description",
           "label": "Descrição"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -499,6 +754,44 @@
           "id": "heading",
           "label": "Título",
           "default": "Siga-nos"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
         }
       ]
     },
@@ -526,6 +819,50 @@
           "type": "textarea",
           "id": "address",
           "label": "Endereço"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     },
@@ -542,6 +879,50 @@
           "type": "html",
           "id": "custom_html",
           "label": "Código HTML"
+        },
+        {
+          "type": "header",
+          "content": "Elementos Adicionais"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "default": false,
+          "label": "Mostrar Newsletter"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "newsletter_heading",
+          "label": "Título da Newsletter",
+          "default": "Assine nossa newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "label": "Descrição da Newsletter"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "default": false,
+          "label": "Mostrar Botão"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto do Botão",
+          "default": "Saiba Mais"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL do Botão"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "default": false,
+          "label": "Mostrar Redes Sociais"
         }
       ]
     }
