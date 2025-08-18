@@ -238,6 +238,7 @@
     "image_banner_9LTBPP": {
       "type": "image-banner",
       "settings": {
+        "image": "shopify://shop_images/Group_228.jpg",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
         "image_behavior": "none",
