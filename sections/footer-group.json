@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
@@ -17,8 +17,8 @@
         "image_HmXxrB": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/logo-viniltec.svg",
-            "image_width": 310,
+            "image": "shopify://shop_images/horiz-colorida-e1674489459381_png.webp",
+            "image_width": 165,
             "alignment": ""
           }
         },
