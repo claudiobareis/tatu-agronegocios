@@ -1,0 +1,180 @@
+{%- comment -%}
+  Renders email signup form.
+  
+  @param {object} settings - The settings object containing email signup properties
+{%- endcomment -%}
+
+{%- liquid
+  assign width = settings.width | default: 'fill'
+  assign custom_width = settings.custom_width | default: 100
+  assign inherit_color_scheme = settings.inherit_color_scheme | default: true
+  assign color_scheme = settings.color_scheme | default: 'scheme-1'
+  assign border_style = settings.border_style | default: 'all'
+  assign border_width = settings.border_width | default: 1
+  assign border_radius = settings.border_radius | default: 39
+  assign input_type_preset = settings.input_type_preset | default: 'paragraph'
+  assign style_class = settings.style_class | default: 'button-unstyled'
+  assign display_type = settings.display_type | default: 'arrow'
+  assign label = settings.label | default: 'Sign up'
+  assign integrated_button = settings.integrated_button | default: true
+  assign button_type_preset = settings.button_type_preset | default: 'paragraph'
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+<div 
+  class="
+    email-signup
+    email-signup--width-{{ width }}
+    {% unless inherit_color_scheme %}color-{{ color_scheme }}{% endunless %}
+  "
+  style="
+    {% if width == 'custom' %}width: {{ custom_width }}%;{% endif %}
+    {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+    {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+    {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+    {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+  "
+>
+  <form action="/contact#contact_form" method="post" class="email-signup__form">
+    <input type="hidden" name="form_type" value="customer">
+    <input type="hidden" name="utf8" value="✓">
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    
+    <div class="email-signup__field-wrapper">
+      <input
+        type="email"
+        name="contact[email]"
+        id="Email-{{ section.id }}"
+        class="email-signup__input"
+        value="{{ form.email }}"
+        aria-required="true"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email"
+        {% if form.errors contains 'email' %}
+          aria-invalid="true"
+          aria-describedby="Email-error-{{ section.id }}"
+        {% endif %}
+        placeholder="{{ 'newsletter.placeholder' | t }}"
+        required
+        style="
+          border: {{ border_width }}px solid currentColor;
+          border-radius: {{ border_radius }}px;
+          {% if border_style == 'none' %}border: none;{% endif %}
+        "
+      >
+      
+      {%- if integrated_button -%}
+        <button
+          type="submit"
+          class="
+            email-signup__button
+            button
+            button--{{ button_type_preset }}
+            {{ style_class }}
+          "
+          name="commit"
+          aria-label="{{ 'newsletter.button_label' | t }}"
+        >
+          {%- if display_type == 'arrow' -%}
+            {% render 'icon-arrow' %}
+          {%- else -%}
+            {{ label }}
+          {%- endif -%}
+        </button>
+      {%- endif -%}
+    </div>
+    
+    {%- if form.errors contains 'email' -%}
+      <small class="email-signup__error" id="Email-error-{{ section.id }}">
+        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+      </small>
+    {%- endif -%}
+  </form>
+</div>
+
+{% stylesheet %}
+  .email-signup {
+    width: 100%;
+  }
+  
+  .email-signup--width-custom {
+    width: var(--custom-width);
+  }
+  
+  .email-signup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .email-signup__field-wrapper {
+    display: flex;
+    position: relative;
+  }
+  
+  .email-signup__input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    background: transparent;
+    color: currentColor;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .email-signup__input:focus {
+    border-color: currentColor;
+  }
+  
+  .email-signup__input::placeholder {
+    color: currentColor;
+    opacity: 0.7;
+  }
+  
+  .email-signup__button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: currentColor;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+  
+  .email-signup__button:hover {
+    opacity: 0.7;
+  }
+  
+  .email-signup__button svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .email-signup__error {
+    color: #d82c0d;
+    font-size: 0.875rem;
+  }
+  
+  @media (max-width: 749px) {
+    .email-signup__field-wrapper {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .email-signup__button {
+      position: static;
+      transform: none;
+      align-self: flex-end;
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,156 @@
+
+
+{% liquid
+  assign block_settings = block.settings
+  assign image = settings.logo
+
+  if block_settings.inverse and settings.logo_inverse
+    assign image = settings.logo_inverse
+  endif
+%}
+
+{%- if image -%}
+  {% capture logo_image %}
+    {{-
+      image
+      | image_url: width: 3840
+      | image_tag:
+        width: image.width,
+        widths: '240, 352, 832, 1200, 1600, 1920, 2560, 3840',
+        height: image.height,
+        class: 'logo-block__image',
+        alt: shop.name,
+        sizes: '(min-width: 750px) calc(var(--logo-width)), 100vw'
+    -}}
+  {% endcapture %}
+{%- endif -%}
+
+<div
+  class="
+    logo-block
+    spacing-style
+  "
+  style="
+    {% if block_settings.unit == 'percent' %}
+      --logo-width: {{ block_settings.percent_width }}%;
+    {% else %}
+      {% if image %}
+        --logo-width: {{ image.width | times: 1.00 | divided_by: image.height | times: block_settings.pixel_height }}px;
+      {% else %}
+        --logo-width: {{ shop.name.size }}ch;
+        --logo-height: {{ block_settings.pixel_height }}px;
+      {% endif %}
+    {% endif %}
+
+    {% if block_settings.custom_mobile_size %}
+      {% if block_settings.unit_mobile == 'percent' %}
+        --logo-width-mobile: {{ block_settings.percent_width_mobile }}%;
+        --logo-height-mobile: auto;
+      {% else %}
+        {% if image %}
+          --logo-width-mobile: {{ image.width | times: 1.00 | divided_by: image.height | times: block_settings.pixel_height_mobile }}px;
+          {% else %}
+            --logo-width-mobile: {{ shop.name.size }}ch;
+            --logo-height-mobile: {{ block_settings.pixel_height_mobile }}px;
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    {% render 'spacing-style', settings: block_settings %}
+  "
+  {{ block.shopify_attributes }}
+>
+  {% if logo_image %}
+    <div class="logo-block__image-wrapper">
+      {{ logo_image }}
+    </div>
+  {% else %}
+    {% render 'jumbo-text', text: shop.name %}
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .logo-block {
+    width: calc(var(--logo-width) + var(--padding-inline-start) + var(--padding-inline-end));
+    max-width: 100%;
+    max-height: calc(var(--logo-height, 100%) + var(--padding-block-start) + var(--padding-block-end));
+    font-size: var(--logo-height);
+    display: flex;
+
+    @media screen and (max-width: 750px) {
+      max-height: calc(
+        var(--logo-height-mobile, var(--logo-height, 100%)) + var(--padding-block-start) + var(--padding-block-end)
+      );
+      font-size: var(--logo-height-mobile, var(--logo-height));
+      width: calc(
+        var(--logo-width-mobile, var(--logo-width)) + var(--padding-inline-start) + var(--padding-inline-end)
+      );
+    }
+  }
+
+  .logo-block__image-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .logo-block__image {
+    object-fit: contain;
+    width: 100%;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Logo",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

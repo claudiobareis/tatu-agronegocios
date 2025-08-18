@@ -1,0 +1,87 @@
+{%- comment -%}
+  Renders a logo element.
+  
+  @param {object} settings - The settings object containing logo properties
+{%- endcomment -%}
+
+{%- liquid
+  assign logo = settings.logo | default: shop.logo
+  assign logo_width = settings.logo_width | default: 100
+  assign logo_height = settings.logo_height | default: 'auto'
+  assign link = settings.link | default: routes.root_url
+  assign open_in_new_tab = settings.open_in_new_tab | default: false
+  assign alignment = settings.alignment | default: 'center'
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if logo != nil -%}
+  <div 
+    class="
+      logo-block
+      logo-block--alignment-{{ alignment }}
+    "
+    style="
+      {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+      {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+      {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+      {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+    "
+  >
+    <a 
+      href="{{ link }}"
+      class="logo-block__link"
+      {% if open_in_new_tab %}
+        target="_blank"
+        rel="noopener noreferrer"
+      {% endif %}
+    >
+      <img
+        src="{{ logo | image_url: width: logo_width }}"
+        alt="{{ shop.name }}"
+        class="logo-block__image"
+        width="{{ logo_width }}"
+        {% if logo_height != 'auto' %}height="{{ logo_height }}"{% endif %}
+        loading="lazy"
+      >
+    </a>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .logo-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo-block--alignment-left {
+    justify-content: flex-start;
+  }
+  
+  .logo-block--alignment-center {
+    justify-content: center;
+  }
+  
+  .logo-block--alignment-right {
+    justify-content: flex-end;
+  }
+  
+  .logo-block__link {
+    display: block;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .logo-block__link:hover {
+    opacity: 0.8;
+  }
+  
+  .logo-block__image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+{% endstylesheet %}

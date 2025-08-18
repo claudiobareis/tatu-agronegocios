@@ -1,0 +1,25 @@
+{%- comment -%}
+  Renders spacing styles for blocks and sections.
+  
+  @param {object} settings - The settings object containing spacing properties
+{%- endcomment -%}
+
+{%- liquid
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if padding_block_start > 0 -%}
+  padding-block-start: {{ padding_block_start }}px;
+{%- endif -%}
+{%- if padding_block_end > 0 -%}
+  padding-block-end: {{ padding_block_end }}px;
+{%- endif -%}
+{%- if padding_inline_start > 0 -%}
+  padding-inline-start: {{ padding_inline_start }}px;
+{%- endif -%}
+{%- if padding_inline_end > 0 -%}
+  padding-inline-end: {{ padding_inline_end }}px;
+{%- endif -%}

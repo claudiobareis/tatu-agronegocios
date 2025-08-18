@@ -1,0 +1,35 @@
+{%- comment -%}
+  Renders footer policy links.
+  
+  @param {object} settings - The settings object containing policy properties
+{%- endcomment -%}
+
+{%- liquid
+  assign font_size = settings.font_size | default: '0.75rem'
+  assign case = settings.case | default: 'none'
+-%}
+
+{%- if shop.privacy_policy or shop.terms_of_service or shop.refund_policy or shop.shipping_policy -%}
+  <div 
+    class="footer-policy-list"
+    style="
+      font-size: {{ font_size }};
+      text-transform: {{ case }};
+    "
+  >
+    <ul class="policy-list">
+      {%- if shop.privacy_policy -%}
+        <li><a href="{{ shop.privacy_policy.url }}">{{ 't:general.privacy_policy.title' | t }}</a></li>
+      {%- endif -%}
+      {%- if shop.terms_of_service -%}
+        <li><a href="{{ shop.terms_of_service.url }}">{{ 't:general.terms_of_service.title' | t }}</a></li>
+      {%- endif -%}
+      {%- if shop.refund_policy -%}
+        <li><a href="{{ shop.refund_policy.url }}">{{ 't:general.refund_policy.title' | t }}</a></li>
+      {%- endif -%}
+      {%- if shop.shipping_policy -%}
+        <li><a href="{{ shop.shipping_policy.url }}">{{ 't:general.shipping_policy.title' | t }}</a></li>
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}

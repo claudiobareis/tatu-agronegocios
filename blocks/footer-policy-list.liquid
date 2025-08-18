@@ -1,0 +1,88 @@
+
+
+<ul
+  class="
+    policy_list list-unstyled
+    custom-typography
+    {% if block.settings.font_size != "" %}custom-font-size{% endif %}
+  "
+  style="{% render 'typography-style', preset: 'custom', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {%- for policy in shop.policies -%}
+    {%- if policy != blank -%}
+      <li>
+        <a
+          href="{{ policy.url }}"
+          class="footer-utilities__text"
+        >
+          {{- policy.title | escape -}}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>
+
+{% stylesheet %}
+  .policy_list {
+    display: flex;
+    gap: var(--gap-2xs) var(--gap-sm);
+
+    /* Depending on the content, some smaller desktop layouts will need to wrap the items to fit everything */
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media screen and (min-width: 750px) {
+      justify-content: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer Policy List",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "Font Size",
+      "options": [
+        {
+          "value": "0.75rem",
+          "label": "Small"
+        },
+        {
+          "value": "1rem",
+          "label": "Medium"
+        },
+        {
+          "value": "1.25rem",
+          "label": "Large"
+        }
+      ],
+      "default": "0.75rem"
+    },
+    {
+      "type": "select",
+      "id": "case",
+      "label": "Text Case",
+      "options": [
+        {
+          "value": "none",
+          "label": "Normal"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "none"
+    }
+  ]
+}
+{% endschema %}

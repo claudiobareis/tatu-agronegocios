@@ -1,0 +1,51 @@
+
+{% render 'footer-copyright', settings: block.settings %}
+
+{% schema %}
+{
+  "name": "Footer Copyright",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "Font Size",
+      "options": [
+        {
+          "value": "0.75rem",
+          "label": "Small"
+        },
+        {
+          "value": "1rem",
+          "label": "Medium"
+        },
+        {
+          "value": "1.25rem",
+          "label": "Large"
+        }
+      ],
+      "default": "0.75rem"
+    },
+    {
+      "type": "select",
+      "id": "case",
+      "label": "Text Case",
+      "options": [
+        {
+          "value": "none",
+          "label": "Normal"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "none"
+    }
+  ]
+}
+{% endschema %}

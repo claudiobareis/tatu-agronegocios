@@ -1,0 +1,90 @@
+{%- comment -%}
+  Renders payment method icons.
+  
+  @param {object} settings - The settings object containing payment icons properties
+{%- endcomment -%}
+
+{%- liquid
+  assign show_payment_icons = settings.show_payment_icons | default: true
+  assign payment_icons = settings.payment_icons | default: 'shopify'
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if show_payment_icons -%}
+  <div 
+    class="payment-icons"
+    style="
+      {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+      {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+      {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+      {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+    "
+  >
+    {%- if payment_icons == 'shopify' -%}
+      <ul class="payment-icons__list">
+        {%- for type in shop.enabled_payment_types -%}
+          <li class="payment-icons__item">
+            {{ type | payment_type_svg_tag: class: 'payment-icons__icon' }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="payment-icons__custom">
+        {{ payment_icons }}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .payment-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .payment-icons__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .payment-icons__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .payment-icons__icon {
+    height: 1.5rem;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  
+  .payment-icons__icon:hover {
+    opacity: 1;
+  }
+  
+  .payment-icons__custom {
+    text-align: center;
+  }
+  
+  @media (max-width: 749px) {
+    .payment-icons__list {
+      gap: 0.25rem;
+    }
+    
+    .payment-icons__icon {
+      height: 1.25rem;
+    }
+  }
+{% endstylesheet %}

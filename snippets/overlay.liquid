@@ -1,0 +1,22 @@
+{%- comment -%}
+  Renders overlay styles for blocks.
+  
+  @param {object} settings - The settings object containing overlay properties
+  @param {string} layer - The layer number for z-index
+{%- endcomment -%}
+
+{%- liquid
+  assign overlay_color = settings.overlay_color | default: '#00000026'
+  assign overlay_style = settings.overlay_style | default: 'solid'
+  assign gradient_direction = settings.gradient_direction | default: 'to top'
+-%}
+
+{%- if overlay_style == 'gradient' -%}
+  background: linear-gradient({{ gradient_direction }}, transparent, {{ overlay_color }});
+{%- else -%}
+  background-color: {{ overlay_color }};
+{%- endif -%}
+position: absolute;
+inset: 0;
+z-index: {{ layer }};
+pointer-events: none;

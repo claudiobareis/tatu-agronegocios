@@ -1,0 +1,105 @@
+{%- comment -%}
+  Renders an icon element.
+  
+  @param {object} settings - The settings object containing icon properties
+{%- endcomment -%}
+
+{%- liquid
+  assign icon_name = settings.icon | default: 'star'
+  assign size = settings.size | default: 'medium'
+  assign color = settings.color | default: 'currentColor'
+  assign background = settings.background | default: false
+  assign background_color = settings.background_color | default: 'transparent'
+  assign corner_radius = settings.corner_radius | default: 0
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+<div 
+  class="
+    icon-block
+    icon-block--size-{{ size }}
+    {% if background %}icon-block--background{% endif %}
+  "
+  style="
+    color: {{ color }};
+    {% if background %}background-color: {{ background_color }};{% endif %}
+    {% if corner_radius > 0 %}border-radius: {{ corner_radius }}px;{% endif %}
+    {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+    {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+    {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+    {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+  "
+>
+  {%- case icon_name -%}
+    {%- when 'star' -%}
+      {% render 'icon-star' %}
+    {%- when 'heart' -%}
+      {% render 'icon-heart' %}
+    {%- when 'cart' -%}
+      {% render 'icon-cart' %}
+    {%- when 'search' -%}
+      {% render 'icon-search' %}
+    {%- when 'user' -%}
+      {% render 'icon-account' %}
+    {%- when 'menu' -%}
+      {% render 'icon-hamburger' %}
+    {%- when 'close' -%}
+      {% render 'icon-close' %}
+    {%- when 'arrow' -%}
+      {% render 'icon-arrow' %}
+    {%- when 'plus' -%}
+      {% render 'icon-plus' %}
+    {%- when 'minus' -%}
+      {% render 'icon-minus' %}
+    {%- when 'check' -%}
+      {% render 'icon-checkmark' %}
+    {%- when 'info' -%}
+      {% render 'icon-info' %}
+    {%- when 'warning' -%}
+      {% render 'icon-error' %}
+    {%- when 'success' -%}
+      {% render 'icon-success' %}
+    {%- else -%}
+      {% render icon_name %}
+  {%- endcase -%}
+</div>
+
+{% stylesheet %}
+  .icon-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon-block--size-small {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .icon-block--size-medium {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .icon-block--size-large {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .icon-block--size-xlarge {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .icon-block--background {
+    padding: 0.5rem;
+  }
+  
+  .icon-block svg {
+    width: 100%;
+    height: 100%;
+  }
+{% endstylesheet %}

@@ -1,0 +1,34 @@
+{%- comment -%}
+  Renders size styles for blocks.
+  
+  @param {object} settings - The settings object containing size properties
+{%- endcomment -%}
+
+{%- liquid
+  assign width = settings.width | default: 'fill'
+  assign custom_width = settings.custom_width | default: 100
+  assign width_mobile = settings.width_mobile | default: 'fill'
+  assign custom_width_mobile = settings.custom_width_mobile | default: 100
+  assign height = settings.height | default: 'fit'
+  assign custom_height = settings.custom_height | default: 100
+-%}
+
+{%- if width == 'custom' -%}
+  width: {{ custom_width }}%;
+{%- elsif width == 'fit-content' -%}
+  width: fit-content;
+{%- endif -%}
+
+{%- if height == 'custom' -%}
+  height: {{ custom_height }}%;
+{%- elsif height == 'fit' -%}
+  height: fit-content;
+{%- endif -%}
+
+@media (max-width: 749px) {
+  {%- if width_mobile == 'custom' -%}
+    width: {{ custom_width_mobile }}%;
+  {%- elsif width_mobile == 'fit-content' -%}
+    width: fit-content;
+  {%- endif -%}
+}

@@ -1,0 +1,92 @@
+
+
+{% render 'jumbo-text', block: block %}
+
+{% schema %}
+{
+  "name": "Jumbo Text",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Large, prominent text for headlines and important messages.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "fit-content",
+          "label": "Fit Content"
+        },
+        {
+          "value": "100%",
+          "label": "Fill"
+        }
+      ],
+      "default": "fit-content"
+    },
+    {
+      "type": "select",
+      "id": "max_width",
+      "label": "Max Width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "Narrow"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "Font Size",
+      "options": [
+        {
+          "value": "2rem",
+          "label": "Small"
+        },
+        {
+          "value": "3rem",
+          "label": "Medium"
+        },
+        {
+          "value": "4rem",
+          "label": "Large"
+        },
+        {
+          "value": "5rem",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "3rem"
+    }
+  ]
+}
+{% endschema %}

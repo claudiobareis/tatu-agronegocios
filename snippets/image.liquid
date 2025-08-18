@@ -1,0 +1,105 @@
+{%- comment -%}
+  Renders an image element.
+  
+  @param {object} settings - The settings object containing image properties
+{%- endcomment -%}
+
+{%- liquid
+  assign image = settings.image | default: nil
+  assign alt_text = settings.alt_text | default: image.alt | default: 'Image'
+  assign width = settings.width | default: 'auto'
+  assign custom_width = settings.custom_width | default: 100
+  assign height = settings.height | default: 'auto'
+  assign custom_height = settings.custom_height | default: 100
+  assign alignment = settings.alignment | default: 'center'
+  assign link = settings.link | default: ''
+  assign open_in_new_tab = settings.open_in_new_tab | default: false
+  assign corner_radius = settings.corner_radius | default: 0
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if image != nil -%}
+  <div 
+    class="
+      image-block
+      image-block--alignment-{{ alignment }}
+    "
+    style="
+      {% if width == 'custom' %}width: {{ custom_width }}px;{% elsif width == 'auto' %}width: auto;{% endif %}
+      {% if height == 'custom' %}height: {{ custom_height }}px;{% elsif height == 'auto' %}height: auto;{% endif %}
+      {% if corner_radius > 0 %}border-radius: {{ corner_radius }}px;{% endif %}
+      {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+      {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+      {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+      {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+    "
+  >
+    {%- if link != blank -%}
+      <a 
+        href="{{ link }}"
+        class="image-block__link"
+        {% if open_in_new_tab %}
+          target="_blank"
+          rel="noopener noreferrer"
+        {% endif %}
+      >
+        <img
+          src="{{ image | image_url: width: custom_width if width == 'custom' }}"
+          alt="{{ alt_text }}"
+          class="image-block__image"
+          loading="lazy"
+          {% if width == 'custom' %}width="{{ custom_width }}"{% endif %}
+          {% if height == 'custom' %}height="{{ custom_height }}"{% endif %}
+        >
+      </a>
+    {%- else -%}
+      <img
+        src="{{ image | image_url: width: custom_width if width == 'custom' }}"
+        alt="{{ alt_text }}"
+        class="image-block__image"
+        loading="lazy"
+        {% if width == 'custom' %}width="{{ custom_width }}"{% endif %}
+        {% if height == 'custom' %}height="{{ custom_height }}"{% endif %}
+      >
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .image-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-block--alignment-left {
+    justify-content: flex-start;
+  }
+  
+  .image-block--alignment-center {
+    justify-content: center;
+  }
+  
+  .image-block--alignment-right {
+    justify-content: flex-end;
+  }
+  
+  .image-block__image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .image-block__link {
+    display: block;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .image-block__link:hover {
+    opacity: 0.8;
+  }
+{% endstylesheet %}

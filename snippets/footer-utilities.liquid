@@ -1,0 +1,86 @@
+{%- comment -%}
+  Renders footer utilities section with copyright, policies, and social icons.
+  
+  @param {object} settings - The settings object containing footer utilities properties
+{%- endcomment -%}
+
+{%- liquid
+  assign divider_thickness = settings.divider_thickness | default: 0
+  assign padding_block_start = settings.padding-block-start | default: 12
+  assign padding_block_end = settings.padding-block-end | default: 0
+-%}
+
+<div 
+  class="footer-utilities"
+  style="
+    {% if divider_thickness > 0 %}border-top: {{ divider_thickness }}px solid currentColor; opacity: 0.2;{% endif %}
+    {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+    {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+  "
+>
+  <div class="footer-utilities__content">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when '_footer-copyright' -%}
+          {% render '_footer-copyright', settings: block.settings %}
+        {%- when '_footer-policy-list' -%}
+          {% render '_footer-policy-list', settings: block.settings %}
+        {%- when '_footer-social-icons' -%}
+          {% render '_footer-social-icons', settings: block.settings %}
+        {%- when '_social-link' -%}
+          {% render '_social-link', settings: block.settings, block: block %}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .footer-utilities {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-utilities__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+  }
+  
+  @media (min-width: 750px) {
+    .footer-utilities__content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .footer-copyright,
+  .footer-policy-list {
+    flex-shrink: 0;
+  }
+  
+  .footer-policy-list .policy-list {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .footer-policy-list .policy-list a {
+    color: currentColor;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .footer-policy-list .policy-list a:hover {
+    opacity: 0.7;
+  }
+{% endstylesheet %}

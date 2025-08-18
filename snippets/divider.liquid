@@ -1,0 +1,59 @@
+{%- comment -%}
+  Renders a divider line.
+  
+  @param {string} id - The unique identifier for the divider
+  @param {object} settings - The settings object containing divider properties
+  @param {boolean} attributes - Whether to include Shopify attributes
+  @param {boolean} full_width - Whether the divider should be full width
+{%- endcomment -%}
+
+{%- liquid
+  assign thickness = settings.thickness | default: 1
+  assign corner_radius = settings.corner_radius | default: 'square'
+  assign width_percent = settings.width_percent | default: 100
+  assign alignment_horizontal = settings.alignment_horizontal | default: 'center'
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+-%}
+
+<div
+  class="
+    divider
+    divider--{{ corner_radius }}
+    {% if full_width %}divider--full-width{% endif %}
+  "
+  style="
+    height: {{ thickness }}px;
+    width: {{ width_percent }}%;
+    justify-content: {{ alignment_horizontal }};
+    {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+    {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+  "
+  {% if attributes %}
+    {{ block.shopify_attributes }}
+  {% endif %}
+>
+  <div class="divider__line"></div>
+</div>
+
+{% stylesheet %}
+  .divider {
+    display: flex;
+    align-items: center;
+  }
+  
+  .divider__line {
+    height: 100%;
+    width: 100%;
+    background-color: currentColor;
+    opacity: 0.2;
+  }
+  
+  .divider--rounded .divider__line {
+    border-radius: 1px;
+  }
+  
+  .divider--full-width {
+    width: 100%;
+  }
+{% endstylesheet %}

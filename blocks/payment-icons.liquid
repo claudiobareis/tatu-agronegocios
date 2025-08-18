@@ -1,0 +1,33 @@
+
+{% render 'payment-icons', block: block %}
+
+{% schema %}
+{
+  "name": "Payment Icons",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "payment_icons",
+      "label": "Payment Icons",
+      "options": [
+        {
+          "value": "shopify",
+          "label": "Shopify enabled"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "shopify"
+    }
+  ]
+}
+{% endschema %}

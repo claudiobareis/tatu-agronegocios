@@ -1,0 +1,19 @@
+{%- comment -%}
+  Renders border override styles for blocks.
+  
+  @param {object} settings - The settings object containing border properties
+{%- endcomment -%}
+
+{%- liquid
+  assign border = settings.border | default: 'none'
+  assign border_width = settings.border_width | default: 1
+  assign border_opacity = settings.border_opacity | default: 100
+  assign border_radius = settings.border_radius | default: 0
+-%}
+
+{%- if border != 'none' and border_width > 0 -%}
+  border: {{ border_width }}px solid rgba(0, 0, 0, {{ border_opacity | divided_by: 100.0 }});
+{%- endif -%}
+{%- if border_radius > 0 -%}
+  border-radius: {{ border_radius }}px;
+{%- endif -%}

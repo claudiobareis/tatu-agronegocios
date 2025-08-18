@@ -1,0 +1,26 @@
+{%- comment -%}
+  Renders footer copyright information.
+  
+  @param {object} settings - The settings object containing copyright properties
+{%- endcomment -%}
+
+{%- liquid
+  assign font_size = settings.font_size | default: '0.75rem'
+  assign case = settings.case | default: 'none'
+-%}
+
+<div 
+  class="footer-copyright"
+  style="
+    font-size: {{ font_size }};
+    text-transform: {{ case }};
+  "
+>
+  <small class="copyright__content">
+    &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}
+    {%- if section.settings.show_policy -%}
+      <span class="copyright__separator">•</span>
+      <a href="{{ routes.root_url }}pages/privacy-policy">{{ 't:general.privacy_policy.title' | t }}</a>
+    {%- endif -%}
+  </small>
+</div>

@@ -1,0 +1,60 @@
+{%- comment -%}
+  Renders a social media link.
+  
+  @param {object} settings - The settings object containing social link properties
+{%- endcomment -%}
+
+{%- if settings.link != blank -%}
+  <a 
+    href="{{ settings.link }}" 
+    class="social-link"
+    target="_blank" 
+    rel="noopener noreferrer"
+    aria-label="{{ block.name }}"
+  >
+    {%- case block.name -%}
+      {%- when 'Facebook' -%}
+        {% render 'icon-facebook' %}
+      {%- when 'Instagram' -%}
+        {% render 'icon-instagram' %}
+      {%- when 'TikTok' -%}
+        {% render 'icon-tiktok' %}
+      {%- when 'X / Twitter' -%}
+        {% render 'icon-twitter' %}
+      {%- when 'YouTube' -%}
+        {% render 'icon-youtube' %}
+      {%- when 'Pinterest' -%}
+        {% render 'icon-pinterest' %}
+      {%- when 'Snapchat' -%}
+        {% render 'icon-snapchat' %}
+      {%- when 'Tumblr' -%}
+        {% render 'icon-tumblr' %}
+      {%- when 'Vimeo' -%}
+        {% render 'icon-vimeo' %}
+      {%- else -%}
+        <span>{{ block.name }}</span>
+    {%- endcase -%}
+  </a>
+{%- endif -%}
+
+{% stylesheet %}
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: currentColor;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .social-link:hover {
+    opacity: 0.7;
+  }
+  
+  .social-link svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+{% endstylesheet %}

@@ -1,0 +1,24 @@
+{%- comment -%}
+  Renders layout panel styles for flexbox layouts.
+  
+  @param {object} settings - The settings object containing layout properties
+{%- endcomment -%}
+
+{%- liquid
+  assign content_direction = settings.content_direction | default: 'column'
+  assign horizontal_alignment = settings.horizontal_alignment | default: 'flex-start'
+  assign vertical_alignment = settings.vertical_alignment | default: 'center'
+  assign horizontal_alignment_flex_direction_column = settings.horizontal_alignment_flex_direction_column | default: 'flex-start'
+  assign vertical_alignment_flex_direction_column = settings.vertical_alignment_flex_direction_column | default: 'center'
+  assign gap = settings.gap | default: 12
+  assign align_baseline = settings.align_baseline | default: false
+-%}
+
+{%- if content_direction == 'row' -%}
+  justify-content: {{ horizontal_alignment }};
+  align-items: {% if align_baseline %}baseline{% else %}{{ vertical_alignment }}{% endif %};
+{%- else -%}
+  justify-content: {{ horizontal_alignment_flex_direction_column }};
+  align-items: {{ vertical_alignment_flex_direction_column }};
+{%- endif -%}
+gap: {{ gap }}px;

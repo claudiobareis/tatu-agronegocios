@@ -1,0 +1,159 @@
+{%- comment -%}
+  Renders text content.
+  
+  @param {object} settings - The settings object containing text properties
+{%- endcomment -%}
+
+{%- liquid
+  assign text = settings.text | default: ''
+  assign width = settings.width | default: 'fill'
+  assign max_width = settings.max_width | default: 'normal'
+  assign alignment = settings.alignment | default: 'left'
+  assign type_preset = settings.type_preset | default: 'rte'
+  assign font = settings.font | default: 'var(--font-primary--family)'
+  assign font_size = settings.font_size | default: ''
+  assign line_height = settings.line_height | default: 'normal'
+  assign letter_spacing = settings.letter_spacing | default: 'normal'
+  assign case = settings.case | default: 'none'
+  assign wrap = settings.wrap | default: 'pretty'
+  assign color = settings.color | default: ''
+  assign background = settings.background | default: false
+  assign background_color = settings.background_color | default: '#00000026'
+  assign corner_radius = settings.corner_radius | default: 0
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if text != blank -%}
+  <div 
+    class="
+      text-block
+      text-block--width-{{ width }}
+      text-block--max-width-{{ max_width }}
+      text-block--alignment-{{ alignment }}
+      text-block--type-{{ type_preset }}
+      text-block--case-{{ case }}
+      text-block--wrap-{{ wrap }}
+      {% if background %}text-block--background{% endif %}
+    "
+    style="
+      {% if width == 'fit-content' %}width: fit-content;{% endif %}
+      {% if max_width == 'custom' %}max-width: {{ settings.custom_max_width }}px;{% endif %}
+      text-align: {{ alignment }};
+      font-family: {{ font }};
+      {% if font_size != blank %}font-size: {{ font_size }};{% endif %}
+      line-height: {{ line_height }};
+      letter-spacing: {{ letter_spacing }};
+      text-transform: {{ case }};
+      {% if color != blank %}color: {{ color }};{% endif %}
+      {% if background %}background-color: {{ background_color }};{% endif %}
+      {% if corner_radius > 0 %}border-radius: {{ corner_radius }}px;{% endif %}
+      {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+      {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+      {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+      {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+    "
+  >
+    {%- case type_preset -%}
+      {%- when 'h1' -%}
+        <h1 class="text-block__heading">{{ text }}</h1>
+      {%- when 'h2' -%}
+        <h2 class="text-block__heading">{{ text }}</h2>
+      {%- when 'h3' -%}
+        <h3 class="text-block__heading">{{ text }}</h3>
+      {%- when 'h4' -%}
+        <h4 class="text-block__heading">{{ text }}</h4>
+      {%- when 'h5' -%}
+        <h5 class="text-block__heading">{{ text }}</h5>
+      {%- when 'h6' -%}
+        <h6 class="text-block__heading">{{ text }}</h6>
+      {%- when 'paragraph' -%}
+        <p class="text-block__paragraph">{{ text }}</p>
+      {%- when 'rte' -%}
+        <div class="text-block__rte">{{ text }}</div>
+      {%- else -%}
+        <div class="text-block__content">{{ text }}</div>
+    {%- endcase -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .text-block {
+    width: 100%;
+  }
+  
+  .text-block--width-fit-content {
+    width: fit-content;
+  }
+  
+  .text-block--max-width-small {
+    max-width: 20rem;
+  }
+  
+  .text-block--max-width-medium {
+    max-width: 35rem;
+  }
+  
+  .text-block--max-width-large {
+    max-width: 50rem;
+  }
+  
+  .text-block--alignment-left {
+    text-align: left;
+  }
+  
+  .text-block--alignment-center {
+    text-align: center;
+  }
+  
+  .text-block--alignment-right {
+    text-align: right;
+  }
+  
+  .text-block--case-uppercase {
+    text-transform: uppercase;
+  }
+  
+  .text-block--case-lowercase {
+    text-transform: lowercase;
+  }
+  
+  .text-block--case-capitalize {
+    text-transform: capitalize;
+  }
+  
+  .text-block--wrap-pretty {
+    text-wrap: pretty;
+  }
+  
+  .text-block--wrap-balance {
+    text-wrap: balance;
+  }
+  
+  .text-block--background {
+    padding: 1rem;
+  }
+  
+  .text-block__heading {
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .text-block__paragraph {
+    margin: 0;
+  }
+  
+  .text-block__rte {
+    line-height: 1.6;
+  }
+  
+  .text-block__rte p:first-child {
+    margin-top: 0;
+  }
+  
+  .text-block__rte p:last-child {
+    margin-bottom: 0;
+  }
+{% endstylesheet %}

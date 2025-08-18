@@ -1,0 +1,161 @@
+{%- comment -%}
+  Renders a menu list.
+  
+  @param {object} settings - The settings object containing menu properties
+{%- endcomment -%}
+
+{%- liquid
+  assign menu = settings.menu | default: nil
+  assign heading = settings.heading | default: 'Menu'
+  assign show_heading = settings.show_heading | default: true
+  assign heading_size = settings.heading_size | default: 'h3'
+  assign alignment = settings.alignment | default: 'left'
+  assign padding_block_start = settings.padding-block-start | default: 0
+  assign padding_block_end = settings.padding-block-end | default: 0
+  assign padding_inline_start = settings.padding-inline-start | default: 0
+  assign padding_inline_end = settings.padding-inline-end | default: 0
+-%}
+
+{%- if menu != nil -%}
+  <div 
+    class="
+      menu-block
+      menu-block--alignment-{{ alignment }}
+    "
+    style="
+      {% if padding_block_start > 0 %}padding-block-start: {{ padding_block_start }}px;{% endif %}
+      {% if padding_block_end > 0 %}padding-block-end: {{ padding_block_end }}px;{% endif %}
+      {% if padding_inline_start > 0 %}padding-inline-start: {{ padding_inline_start }}px;{% endif %}
+      {% if padding_inline_end > 0 %}padding-inline-end: {{ padding_inline_end }}px;{% endif %}
+    "
+  >
+    {%- if show_heading and heading != blank -%}
+      <{{ heading_size }} class="menu-block__heading">{{ heading }}</{{ heading_size }}>
+    {%- endif -%}
+    
+    {%- if menu.links != blank -%}
+      <ul class="menu-block__list">
+        {%- for link in menu.links -%}
+          <li class="menu-block__item">
+            <a 
+              href="{{ link.url }}" 
+              class="menu-block__link"
+              {% if link.current %}aria-current="page"{% endif %}
+            >
+              {{ link.title }}
+            </a>
+            
+            {%- if link.links != blank -%}
+              <ul class="menu-block__submenu">
+                {%- for child_link in link.links -%}
+                  <li class="menu-block__submenu-item">
+                    <a 
+                      href="{{ child_link.url }}" 
+                      class="menu-block__submenu-link"
+                      {% if child_link.current %}aria-current="page"{% endif %}
+                    >
+                      {{ child_link.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .menu-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .menu-block--alignment-left {
+    text-align: left;
+  }
+  
+  .menu-block--alignment-center {
+    text-align: center;
+  }
+  
+  .menu-block--alignment-right {
+    text-align: right;
+  }
+  
+  .menu-block__heading {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  .menu-block__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .menu-block__item {
+    position: relative;
+  }
+  
+  .menu-block__link {
+    color: currentColor;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    display: block;
+    padding: 0.25rem 0;
+  }
+  
+  .menu-block__link:hover {
+    opacity: 0.7;
+  }
+  
+  .menu-block__link[aria-current="page"] {
+    font-weight: 600;
+  }
+  
+  .menu-block__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .menu-block__submenu-link {
+    color: currentColor;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    font-size: 0.875rem;
+    padding: 0.125rem 0;
+  }
+  
+  .menu-block__submenu-link:hover {
+    opacity: 0.7;
+  }
+  
+  .menu-block__submenu-link[aria-current="page"] {
+    font-weight: 600;
+  }
+  
+  @media (min-width: 750px) {
+    .menu-block--alignment-center .menu-block__list {
+      align-items: center;
+    }
+    
+    .menu-block--alignment-right .menu-block__list {
+      align-items: flex-end;
+    }
+  }
+{% endstylesheet %}
