@@ -35,9 +35,7 @@ slideshow-component .slideshow__controls svg path {
 }
 
 .card .quick-add__submit {
-    background-color: #17C1EA;
     border-radius: 25px;
-    color: #fff;
     border: 0;
     border-color: transparent;
     max-width: 95%;
