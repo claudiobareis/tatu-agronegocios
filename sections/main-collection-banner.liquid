@@ -13,14 +13,14 @@
 {%- assign banner_mobile = collection.metafields.custom.banner_mobile -%}
 {%- assign banner_desktop = collection.metafields.custom.banner_desktop -%}
 {%- assign has_custom_banners = false -%}
-{%- if banner_mobile != blank or banner_desktop != blank -%}
+{%- if banner_mobile != blank and banner_desktop != blank -%}
   {%- assign has_custom_banners = true -%}
 {%- endif -%}
 
 {%- comment -%} Debug temporário - remover depois {%- endcomment -%}
 <!-- DEBUG: banner_mobile={{ banner_mobile | json }}, banner_desktop={{ banner_desktop | json }}, has_custom_banners={{ has_custom_banners }} -->
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image or has_custom_banners %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+<div class="collection-hero{% if has_custom_banners %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
       <h1 class="collection-hero__title">
@@ -87,26 +87,6 @@
         {%- else -%}
           <!-- DEBUG: banner_desktop está vazio -->
         {%- endif -%}
-      </div>
-    {%- comment -%} Fallback para imagem da coleção original {%- endcomment -%}
-    {%- elsif section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 1500 }}"
-          sizes="100vw"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"          
-        >
       </div>
     {%- endif -%}
   </div>

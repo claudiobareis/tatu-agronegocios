@@ -102,12 +102,13 @@
 @media screen and (max-width: 749px) {
   .collection-hero__image-container {
     height: max-content;
-    min-height: 420px;
+    min-height: 180px;
     border:0;
     box-shadow: none;
   }
   .collection-hero__image-container img{
     object-fit: contain;
+    height: auto !important;
   }
 }
 

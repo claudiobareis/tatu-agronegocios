@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+<html class="js" lang="{{ request.locale.iso_code }}"> 
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -364,15 +364,15 @@
       };
 
       window.cartStrings = {
-        error: `{{ 'sections.cart.cart_error' | t }}`,
-        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        error: `Ocorreu um erro ao atualizar o carrinho. Tente de novo.`,
+        quantityError: `Você só pode adicionar [quantity] deste item ao carrinho.`,
       };
 
       window.variantStrings = {
-        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
-        soldOut: `{{ 'products.product.sold_out' | t }}`,
-        unavailable: `{{ 'products.product.unavailable' | t }}`,
-        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+        addToCart: `Adicionar ao carrinho`,
+        soldOut: `Esgotado`,
+        unavailable: `Indisponível`,
+        unavailable_with_option: `Opção '[value]' indisponível`,
       };
 
       window.quickOrderListStrings = {

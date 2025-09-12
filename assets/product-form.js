@@ -91,9 +91,19 @@ if (!customElements.get('product-form')) {
               );
               quickAddModal.hide(true);
             } else {
-              CartPerformance.measure("add:paint-updated-sections", () => {
-                this.cart.renderContents(response);
-              });
+              // Verificar se existe mini-cart customizado
+              const miniCart = document.getElementById('mini-cart');
+              if (miniCart) {
+                // Abrir mini-cart customizado ao invés do cart-notification
+                CartPerformance.measure("add:paint-updated-sections", () => {
+                  openCartNotification();
+                });
+              } else {
+                // Fallback para cart-notification original
+                CartPerformance.measure("add:paint-updated-sections", () => {
+                  this.cart.renderContents(response);
+                });
+              }
             }
           })
           .catch((e) => {
