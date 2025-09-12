@@ -100,37 +100,37 @@
         "featured_collection_btzBD6": {
           "type": "featured_collection",
           "settings": {
-            "collection": "vinil"
+            "collection": "linha-protect"
           }
         },
         "featured_collection_jPmNRj": {
           "type": "featured_collection",
           "settings": {
-            "collection": "aquecimento"
+            "collection": "linha-foliar"
           }
         },
         "featured_collection_xnjmzC": {
           "type": "featured_collection",
           "settings": {
-            "collection": "capas"
+            "collection": "linha-solo"
           }
         },
         "featured_collection_rUDDB4": {
           "type": "featured_collection",
           "settings": {
-            "collection": "acessorios"
+            "collection": "linha-splash"
           }
         },
         "featured_collection_3Jz9ah": {
           "type": "featured_collection",
           "settings": {
-            "collection": "aquecimento"
+            "collection": "linha-pecuaria"
           }
         },
         "featured_collection_VxK34C": {
           "type": "featured_collection",
           "settings": {
-            "collection": "iluminacao"
+            "collection": "linha-sais"
           }
         },
         "featured_collection_yb7zPY": {
@@ -150,7 +150,7 @@
         "featured_collection_yb7zPY"
       ],
       "settings": {
-        "title": "Navegue por categorias",
+        "title": "OFERTAS PARA APROVEITAR AGORA",
         "heading_size": "h2",
         "image_ratio": "adapt",
         "columns_desktop": 6,
