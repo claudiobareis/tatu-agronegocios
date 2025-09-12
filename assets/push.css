@@ -54,6 +54,8 @@ slideshow-component .slideshow__controls svg path {
 }
 
 
+
+
 .trust-badges-dark {
     display: flex;
     flex-wrap: wrap;
@@ -295,6 +297,19 @@ slideshow-component .slideshow__controls svg path {
     color: #222;
 }
 
+@media (max-width: 900px) {
+    .extra-descricao {
+        width: 100%;
+    }
+    .extra-descricao table{
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+}
+
 .extra-descricao h3 {
     font-size: 3rem;
     color: #222;
@@ -494,6 +509,14 @@ slideshow-component .slideshow__controls svg path {
     background-color: var(--verde-escuro);
 }
 
+@media (max-width: 990px) {
+    .cart-count-bubble{
+        background-color: var(--verde-escuro);
+        bottom: 2.7rem;
+        left: 2.8rem;
+    }
+}
+
 .announcement-bar p, .announcement-bar p span{
     font-weight: 600;
 }
@@ -671,4 +694,15 @@ slideshow-component .slideshow__controls svg path {
 
   #shopify-section-sections--18195055312965__announcement-bar{
     z-index: 0;
+  }
+
+  button.product-form__submit{
+    background-color: var(--verde-escuro);
+    color: #fff;
+    border: 0;
+  }
+
+  button.product-form__submit:before,
+  button.product-form__submit:after{
+    box-shadow: none;
   }
