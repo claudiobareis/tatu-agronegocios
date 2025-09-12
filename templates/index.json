@@ -166,9 +166,9 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "vinil",
+        "collection": "linha-solo",
         "products_to_show": 8,
-        "title": "Produtos em Destaque",
+        "title": "MAIS VENDIDOS",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
@@ -210,7 +210,7 @@
     "featured_collection_W8hjxA": {
       "type": "featured-collection",
       "settings": {
-        "collection": "iluminacao",
+        "collection": "linha-solo",
         "products_to_show": 8,
         "title": "Promoções",
         "heading_size": "h2",
@@ -296,9 +296,9 @@
     "featured_collection_9PTgXX": {
       "type": "featured-collection",
       "settings": {
-        "collection": "capas",
+        "collection": "linha-solo",
         "products_to_show": 8,
-        "title": "Mais Vendidos",
+        "title": "DESTAQUES",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
