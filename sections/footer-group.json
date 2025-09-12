@@ -69,7 +69,7 @@
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
         "custom_liquid": "<div class=\"footer__credits\">\n  <p><strong>TATU AGRONEGOCIOS COMERCIO LTDA</strong><br> CNPJ: 49.517.156/0001-33 Preços e condições de pagamento válidos exclusivamente para compras efetuadas no site. As imagens dos produtos são meramente ilustrativas.\nTodos os preços e condições comerciais estão sujeitos a alteração sem aviso prévio. Viniltec Piscinas</p>\n  <div class=\"push-logo-wrapper\">\n    <img src=\"https://eyeshoploja.myshopify.com/cdn/shop/t/2/assets/logopush.svg?v=166727493833294207451748276030\" alt=\"Push E-commerce\" class=\"push-logo\">\n  </div>\n</div>",
-        "color_scheme": "",
+        "color_scheme": "scheme-f42e2154-20f5-4877-9789-7ccb0fed22bb",
         "padding_top": 0,
         "padding_bottom": 0
       }
