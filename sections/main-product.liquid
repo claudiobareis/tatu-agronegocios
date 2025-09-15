@@ -686,7 +686,7 @@
     </div>
 
     <div class="products-extra-fileds">
-      {% if product.metafields.custom.habilitar_descricao_extra %}
+      {% if product.metafields.custom.habilitar_descricao_extra == true %}
         <div class="extra-descricao-produto">
           <div class="extra-bloco extra-bloco-1">
             {% if product.metafields.custom.imagem_extra_01 %}
@@ -737,6 +737,11 @@
           {% endif %}
         </div>
       {% endif %}
+    </div>
+
+    <div class="product-descricao-completa">
+      <h2>Descrição Completa</h2>
+      {{ product.description }}
     </div>
 
     {% render 'product-media-modal', variant_images: variant_images %}
