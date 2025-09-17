@@ -386,8 +386,8 @@ slideshow-component .slideshow__controls svg path {
 
 .custom-search {
     flex: 1 1 auto;
-    max-width: 400px;
-    margin: 0;
+    max-width: 580px;
+    margin: 0 15px;
     
 }
 
@@ -705,4 +705,8 @@ slideshow-component .slideshow__controls svg path {
   button.product-form__submit:before,
   button.product-form__submit:after{
     box-shadow: none;
+  }
+
+  .shopify-section-group-header-group{
+    z-index: 1;
   }
