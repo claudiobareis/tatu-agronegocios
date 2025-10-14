@@ -58,8 +58,8 @@
             "layout": "vertical",
             "icon_1": "leaf",
             "heading_1": "* Compra é 100% segura, compre com tranquilidade.",
-            "icon_2": "return",
-            "heading_2": "10% OFF na primeira compra Usando o cupom <strong>BEMVINDO10</strong>",
+            "icon_2": "none",
+            "heading_2": "",
             "icon_3": "none",
             "heading_3": ""
           }
