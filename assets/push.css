@@ -710,3 +710,8 @@ slideshow-component .slideshow__controls svg path {
   .shopify-section-group-header-group{
     z-index: 1;
   }
+
+  .price__container .price-from {
+    font-size: 12px;
+    font-weight: 400;
+}
