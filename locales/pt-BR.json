@@ -124,7 +124,7 @@
         "max_of": "Máximo de {{ quantity }}"
       },
       "price": {
-        "from_price_html": "A partir de {{ price }}",
+        "from_price_html": "<span class='price-from'>A partir de</span> {{ price }}",
         "regular_price": "Preço normal",
         "sale_price": "Preço promocional",
         "unit_price": "Preço unitário"
