@@ -276,7 +276,9 @@
     },
     "image_banner_9LTBPP": {
       "type": "image-banner",
-      "custom_css": [],
+      "custom_css": [
+        "@media (max-width: 768px) {.banner{display: none; }}"
+      ],
       "settings": {
         "image": "shopify://shop_images/Group_231.png",
         "image_overlay_opacity": 0,
