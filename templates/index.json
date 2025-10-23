@@ -197,7 +197,7 @@
     "image_banner_f83cdm": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify://shop_images/Banner_Oleo_de_Laranja_9c210d4b-9546-4fd7-9a82-2a17ae95b757.png",
+        "image": "shopify://shop_images/Banner_Oleo_de_Laranja_1.png",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
         "image_behavior": "none",
