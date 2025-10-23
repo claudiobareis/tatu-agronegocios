@@ -35,6 +35,14 @@ src="https://www.facebook.com/tr?id=1805432773409413&ev=PageView&noscript=1"
   gtag('config', 'AW-16593550949');
 </script>
 
+<!-- Google tag (gtag.js) event -->
+<script>
+  gtag('event', 'purchase', {
+    // <event_parameters>
+  });
+</script>
+
+
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
